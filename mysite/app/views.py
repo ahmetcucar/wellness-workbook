@@ -11,6 +11,10 @@ posts = [
         'title': 'Journal 2',
         'content': 'Second post content',
         'date_posted': 'August 28, 2021'
+    },
+    {
+        'content': 'Third post content',
+        'date_posted': 'August 29, 2021'
     }
 ]
 
