@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <!-- App Name (Clickable) -->
-                <a class="navbar-brand ps-4" href="#">My Wellness Workbook</a>
+                <a class="navbar-brand ps-4" href="{% url 'app-home'%}">My Wellness Workbook</a>
 
                 <!-- Navbar Toggler for Mobile -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,11 +30,11 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <!-- Habit Tracker Button -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Habit Tracker</a>
+                            <a class="nav-link" href="{% url 'app-habits'%}">Habit Tracker</a>
                         </li>
                         <!-- Journal Button -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Journal</a>
+                            <a class="nav-link" href="{% url 'app-journals'%}">Journal</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
