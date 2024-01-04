@@ -38,14 +38,22 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <!-- Login/Logout Button -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Login/Logout</a>
-                        </li>
-                        <!-- Profile Button -->
-                        <li class="nav-item">
-                            <a class="nav-link pe-4" href="#">Profile</a>
-                        </li>
+                        {% if user.is_authenticated %} <!-- Profile + Logout Button -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">{{user.username}}'s Profile</a>
+                            </li>
+                            <form class="d-flex" action="{% url 'logout' %}" method="POST">
+                                {% csrf_token %}
+                                <button class="nav-item nav-link pe-4" type="submit">Logout</button>
+                            </form>
+                        {% else %} <!-- Login + Register Button -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pe-4" href="{% url 'register' %}">Register</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
