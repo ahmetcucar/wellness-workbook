@@ -1,11 +1,26 @@
 {% extends "app/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-        <div class="medi">
-            <div class="media-body">
-                <h2 class="account-heading">{{ user.username }}</h2>
+    <div class="container mt-4">
+        <!-- User Info Section -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class="mb-2">{{ original_username }}</h2>
                 <p class="text-secondary">{{ user.email }}</p>
+            </div>
+        </div>
+
+        <!-- Profile Update Form -->
+        <div class="row">
+            <div class="col-md-8">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="border p-4 rounded">
+                        <legend class="border-bottom mb-4">Profile Info</legend>
+                        {{ u_form|crispy }}
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </fieldset>
+                </form>
             </div>
         </div>
     </div>

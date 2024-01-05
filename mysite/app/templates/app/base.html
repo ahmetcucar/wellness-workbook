@@ -40,7 +40,7 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %} <!-- Profile + Logout Button -->
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'profile' %}">{{user.username}}'s Profile</a>
+                                <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
                             </li>
                             <form class="d-flex" action="{% url 'logout' %}" method="POST">
                                 {% csrf_token %}
