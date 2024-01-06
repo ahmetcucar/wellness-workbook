@@ -1,0 +1,19 @@
+{% extends "app/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Create New Journal Entry</h1>
+            <a href="{% url 'app-journals' %}" class="btn btn-secondary">Back to Journals</a>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

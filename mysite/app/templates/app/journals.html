@@ -2,7 +2,7 @@
 {% block content %}
     <h1 class="mb-4">My Journal</h1>
 
-    <a class="btn btn-primary mb-4" href="#">Create New Journal</a>
+    <a class="btn btn-primary mb-4" href="{% url 'journal-create' %}">Create New Journal</a>
 
     {% for post in posts %}
         <div class="card mb-3">
