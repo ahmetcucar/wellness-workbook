@@ -11,7 +11,7 @@
             <div>
                 <a href="{% url 'app-journals' %}" class="btn btn-secondary">Back to Journals</a>
                 <a href="{% url 'journal-update' post.id %}" class="btn btn-warning">Update Entry</a>
-                <a href="#" class="btn btn-danger">Delete Entry</a>
+                <a href="{% url 'journal-delete' post.id %}" class="btn btn-danger">Delete Entry</a>
             </div>
         </div>
         <!-- Journal Entry Card -->

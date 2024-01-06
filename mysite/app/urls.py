@@ -8,5 +8,6 @@ urlpatterns = [
     path('journals/<int:pk>/', app_views.JournalDetailView.as_view(), name='journal-detail'),
     path('journals/new/', app_views.JournalCreateView.as_view(), name='journal-create'),
     path('journals/<int:pk>/update/', app_views.JournalUpdateView.as_view(), name='journal-update'),
+    path('journals/<int:pk>/delete/', app_views.JournalDeleteView.as_view(), name='journal-delete'),
 
 ]

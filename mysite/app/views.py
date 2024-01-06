@@ -3,7 +3,7 @@ from .models import Post
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 def home(request):
     return render(request, 'app/home.html')
@@ -15,7 +15,7 @@ def habits(request):
 
 class JournalListView(LoginRequiredMixin, ListView):
     model = Post
-    template_name = 'app/journals.html'
+    template_name = 'app/journal.html'
     context_object_name = 'posts'
 
     def get_queryset(self):
@@ -54,6 +54,17 @@ class JournalUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         resp = super().form_valid(form)
         messages.success(self.request, f'Journal entry updated!')
         return resp
+
+    def test_func(self):
+        """Override to restrict editing to the author of the post."""
+        post = self.get_object()
+        return self.request.user == post.author
+
+
+class JournalDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'app/journal_confirm_delete.html'
+    success_url = '/journals/'
 
     def test_func(self):
         """Override to restrict editing to the author of the post."""
