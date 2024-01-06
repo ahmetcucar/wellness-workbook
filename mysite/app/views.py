@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from .models import Post
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 def home(request):
     return render(request, 'app/home.html')
@@ -37,4 +38,24 @@ class JournalCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         """Override to set the author of the new post to the logged-in user."""
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        resp = super().form_valid(form)
+        messages.success(self.request, f'Journal entry created!')
+        return resp
+
+
+class JournalUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    template_name = 'app/journal_form.html'
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        """Override to set the author of the new post to the logged-in user."""
+        form.instance.author = self.request.user
+        resp = super().form_valid(form)
+        messages.success(self.request, f'Journal entry updated!')
+        return resp
+
+    def test_func(self):
+        """Override to restrict editing to the author of the post."""
+        post = self.get_object()
+        return self.request.user == post.author
