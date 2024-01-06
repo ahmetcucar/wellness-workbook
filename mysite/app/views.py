@@ -17,6 +17,7 @@ class JournalListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'app/journal.html'
     context_object_name = 'posts'
+    paginate_by = 10
 
     def get_queryset(self):
         """Override to get posts only by the logged-in user."""
