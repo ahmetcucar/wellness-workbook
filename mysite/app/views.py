@@ -27,3 +27,8 @@ class JournalListView(LoginRequiredMixin, ListView):
         """Override to get posts only by the logged-in user."""
         user = self.request.user
         return Post.objects.filter(author=user).order_by('-date_posted')
+
+class JournalDetailView(LoginRequiredMixin, DetailView):
+    model = Post
+    template_name = 'app/journal_detail.html'
+    context_object_name = 'post'
