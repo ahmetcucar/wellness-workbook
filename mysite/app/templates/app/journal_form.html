@@ -2,10 +2,8 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="mb-0">Create New Journal Entry</h1>
-            <a href="{% url 'app-journals' %}" class="btn btn-secondary">Back to Journals</a>
-        </div>
+        <a href="{% url 'app-journals' %}" class="btn btn-outline-secondary btn-sm mb-4">Back to Journals</a>
+        <h1 class="mb-4">Create New Journal Entry</h1>
         <div class="card mb-3">
             <div class="card-body">
                 <form method="POST">

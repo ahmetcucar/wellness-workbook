@@ -1,8 +1,17 @@
 {% extends "app/base.html" %}
 {% block content %}
-    <h1 class="mb-4">{{user.username}}'s Journal</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Left Aligned Heading -->
+        <div>
+            <h1>{{user.username}}'s Journal</h1>
+        </div>
 
-    <a class="btn btn-primary mb-4" href="{% url 'journal-create' %}">Create New Journal</a>
+        <!-- Right Aligned Buttons -->
+        <div>
+            <a class="btn btn-primary" href="{% url 'journal-create' %}">New Journal Entry</a>
+        </div>
+    </div>
+
 
     {% for post in posts %}
         <div class="card mb-3">
