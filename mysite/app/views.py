@@ -33,7 +33,7 @@ class JournalDetailView(LoginRequiredMixin, DetailView):
 
 class JournalCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    template_name = 'app/journal_form.html'
+    template_name = 'app/journal_create.html'
     fields = ['title', 'content']
 
     def form_valid(self, form):
@@ -46,7 +46,7 @@ class JournalCreateView(LoginRequiredMixin, CreateView):
 
 class JournalUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    template_name = 'app/journal_form.html'
+    template_name = 'app/journal_update.html'
     fields = ['title', 'content']
 
     def form_valid(self, form):

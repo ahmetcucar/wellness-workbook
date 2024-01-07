@@ -1,0 +1,17 @@
+{% extends "app/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container mt-4">
+        <a href="{% url 'journal-detail' post.id %}" class="btn btn-outline-secondary btn-sm mb-4">Back to Journal Entry</a>
+        <h1 class="mb-4">Update Journal Entry</h1>
+        <div class="card mb-3">
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
