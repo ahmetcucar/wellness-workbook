@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post
+from .models import Post, Habit, DailyPerformance
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -8,10 +8,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 def home(request):
     return render(request, 'app/home.html')
 
-@login_required
-def habits(request):
-    return render(request, 'app/habits.html')
 
+######### JOURNAL VIEWS #########
 
 class JournalListView(LoginRequiredMixin, ListView):
     model = Post
@@ -71,3 +69,62 @@ class JournalDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         """Override to restrict editing to the author of the post."""
         post = self.get_object()
         return self.request.user == post.author
+
+
+######### HABIT VIEWS #########
+
+@login_required
+def habits(request):
+    return render(request, 'app/habits.html')
+
+# TODO: initialize DailyPerformance records when a new week starts.
+@login_required
+def week_reset(request):
+    """Reset all habits for the week."""
+    # redirect to habits page
+    return render(request, 'app/habits.html')
+
+
+# TODO: initialize DailyPerformance records when a new habit is created.
+class HabitCreateView(LoginRequiredMixin, CreateView):
+    model = Habit
+    template_name = 'app/habit_create.html'
+    fields = ['title', 'goal']
+    success_url = '/habits/'
+
+    def form_valid(self, form):
+        """Override to set the user of the new habit to the logged-in user."""
+        form.instance.user = self.request.user
+        resp = super().form_valid(form)
+        messages.success(self.request, f'Habit created!')
+        return resp
+
+
+class HabitUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Habit
+    template_name = 'app/habit_update.html'
+    fields = ['title', 'goal']
+    success_url = '/habits/'
+
+    def form_valid(self, form):
+        """Override to set the user of the new habit to the logged-in user."""
+        form.instance.user = self.request.user
+        resp = super().form_valid(form)
+        messages.success(self.request, f'Habit updated!')
+        return resp
+
+    def test_func(self):
+        """Override to restrict editing to the author of the habit."""
+        habit = self.get_object()
+        return self.request.user == habit.user
+
+
+class HabitDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Habit
+    template_name = 'app/habit_confirm_delete.html'
+    success_url = '/habits/'
+
+    def test_func(self):
+        """Override to restrict editing to the author of the habit."""
+        habit = self.get_object()
+        return self.request.user == habit.user
