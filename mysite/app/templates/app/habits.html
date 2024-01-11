@@ -4,4 +4,32 @@
     <h6><em>
         "We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle
     </em></h6>
+
+    <div class="container mt-4">
+        <h2>Habit Tracker</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Habit</th>
+                    {% for day in days_of_week %}
+                        <th>{{ day|date:"D" }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for habit in habits %}
+                    <tr>
+                        <td>{{ habit.title }}</td>
+                        {% for day in days_of_week %}
+                            <td>
+                                <input type="checkbox" data-habit-id="{{ habit.id }}" data-date="{{ day }}"
+                                {% if habit.performances.day %} checked {% endif %} class="habit-checkbox">
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock content %}

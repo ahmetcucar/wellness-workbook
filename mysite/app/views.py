@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render
 from .models import Post, Habit, DailyPerformance
 from django.contrib import messages
@@ -75,7 +76,26 @@ class JournalDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 @login_required
 def habits(request):
-    return render(request, 'app/habits.html')
+    # Get the current date with timezone awareness
+    today = timezone.now().date()
+
+    # Calculate the start (Monday) and end (Sunday) of the current week
+    start_of_week = today - timezone.timedelta(days=today.weekday())
+        # end_of_week = start_of_week + timezone.timedelta(days=6)
+
+    # List of days in the week
+    days_of_week = [start_of_week + timezone.timedelta(days=i) for i in range(7)]
+
+    habits = Habit.objects.filter(user=request.user)
+    for habit in habits:
+        habit.performances = {day: habit.dailyperformance_set.filter(date=day).exists() for day in days_of_week}
+
+    context = {
+        'habits': habits,
+        'days_of_week': days_of_week,
+    }
+    return render(request, 'app/habits.html', context)
+
 
 # TODO: initialize DailyPerformance records when a new week starts.
 @login_required
