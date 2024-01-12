@@ -29,11 +29,19 @@ class Habit(models.Model):
 
     @property
     def this_weeks_performance(self):
-        """Calculate performance from Monday to Sunday of the current week."""
+        """
+        Calculate performance from Monday to Sunday of the current week.
+        Returns a dictionary of {date: performed (bool)} pairs.
+        """
         today = timezone.now().date()
         start_of_week = today - timezone.timedelta(days=today.weekday())  # Monday
         end_of_week = start_of_week + timezone.timedelta(days=6)  # Sunday
-        return self.dailyperformance_set.filter(date__range=[start_of_week, end_of_week])
+        days_of_week = [start_of_week + timezone.timedelta(days=i) for i in range(7)]
+        for day in days_of_week:
+            if not self.dailyperformance_set.filter(date=day).exists():
+                DailyPerformance.objects.create(habit=self, date=day)
+        performances = self.dailyperformance_set.filter(date__range=[start_of_week, end_of_week])
+        return {perf.date: perf.performed for perf in performances}
 
 
 """

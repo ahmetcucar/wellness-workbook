@@ -83,25 +83,26 @@ def habits(request):
     today = timezone.now().date()
     start_of_week = today - timezone.timedelta(days=today.weekday())
     end_of_week = start_of_week + timezone.timedelta(days=6)
-
-    # List of days in the week
-    days_of_week = [start_of_week + timezone.timedelta(days=i) for i in range(7)]
+    days_of_week = [start_of_week + timezone.timedelta(days=i) for i in range(7)] # date objects
 
     habits = Habit.objects.filter(user=request.user)
+    habit_data = []
     for habit in habits:
-        # see if there is a DailyPerformance record for each day of the week, if not, create one
-        for day in days_of_week:
-            if not habit.dailyperformance_set.filter(date=day).exists():
-                DailyPerformance.objects.create(habit=habit, date=day)
-
-        # Get the DailyPerformance records for the current week
-        habit.performaces = habit.dailyperformance_set.filter(date__range=[start_of_week, end_of_week])
+        habit_info = {
+            'id': habit.id,
+            'title': habit.title,
+            'performances': habit.this_weeks_performance
+        }
+        habit_data.append(habit_info)
 
     context = {
-        'habits': habits,
-        'days_of_week': days_of_week,
         'start_of_week': start_of_week,
         'end_of_week': end_of_week,
+        'days_of_week': days_of_week,
+
+        # list of dictionaries. Each dictionary has keys 'id', 'title', and 'performances'.
+        # 'performances' is a dictionary of {date: performed (bool)} pairs.
+        'habits': habit_data,
     }
     return render(request, 'app/habits.html', context)
 

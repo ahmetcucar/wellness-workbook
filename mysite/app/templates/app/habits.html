@@ -1,4 +1,5 @@
 {% extends "app/base.html" %}
+{% load habit_extras %}
 {% block content %}
     <h1>Weekly Habit Tracker</h1>
     <h6 class="mb-5"><em>
@@ -23,7 +24,10 @@
                         {% for day in days_of_week %}
                             <td>
                                 <input type="checkbox" data-habit-id="{{ habit.id }}" data-date="{{ day }}"
-                                {% if habit.performances.day %} checked {% endif %} class="habit-checkbox">
+                                {% if habit.performances|get_item:day %}
+                                    checked
+                                {% endif %}
+                                class="habit-checkbox">
                             </td>
                         {% endfor %}
                     </tr>
