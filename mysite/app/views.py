@@ -81,18 +81,21 @@ def habits(request):
 
     # Calculate the start (Monday) and end (Sunday) of the current week
     start_of_week = today - timezone.timedelta(days=today.weekday())
-        # end_of_week = start_of_week + timezone.timedelta(days=6)
+    end_of_week = start_of_week + timezone.timedelta(days=6)
 
     # List of days in the week
     days_of_week = [start_of_week + timezone.timedelta(days=i) for i in range(7)]
 
     habits = Habit.objects.filter(user=request.user)
+    # TODO: initialize DailyPerformance records when a new week starts.
     for habit in habits:
         habit.performances = {day: habit.dailyperformance_set.filter(date=day).exists() for day in days_of_week}
 
     context = {
         'habits': habits,
         'days_of_week': days_of_week,
+        'start_of_week': start_of_week,
+        'end_of_week': end_of_week,
     }
     return render(request, 'app/habits.html', context)
 

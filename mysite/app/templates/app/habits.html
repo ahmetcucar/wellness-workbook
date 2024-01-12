@@ -1,18 +1,18 @@
 {% extends "app/base.html" %}
 {% block content %}
     <h1>Weekly Habit Tracker</h1>
-    <h6><em>
+    <h6 class="mb-5"><em>
         "We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle
     </em></h6>
 
-    <div class="container mt-4">
-        <h2>Habit Tracker</h2>
-        <table class="table">
+    <div class="container">
+        <h5 class="text-center mb-3"> My Week: {{start_of_week|date:"F j"}} - {{end_of_week|date:"F j"}}</h5>
+        <table class="table text-center">
             <thead>
                 <tr>
                     <th>Habit</th>
                     {% for day in days_of_week %}
-                        <th>{{ day|date:"D" }}</th>
+                        <th class="text-center">{{ day|date:"D" }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -30,6 +30,11 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="row">
+            <div class="col-12">
+                <a href="#" class="btn btn-primary">Add Habit</a>
+            </div>
+        </div>
     </div>
 
 {% endblock content %}
