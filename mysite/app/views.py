@@ -5,12 +5,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
 
 def home(request):
     return render(request, 'app/home.html')
 
 
-######### JOURNAL VIEWS #########
+######### JOURNAL VIEWS #######################################################
 
 class JournalListView(LoginRequiredMixin, ListView):
     model = Post
@@ -72,14 +76,11 @@ class JournalDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == post.author
 
 
-######### HABIT VIEWS #########
+######### HABIT VIEWS #######################################################
 
 @login_required
 def habits(request):
-    # Get the current date with timezone awareness
     today = timezone.now().date()
-
-    # Calculate the start (Monday) and end (Sunday) of the current week
     start_of_week = today - timezone.timedelta(days=today.weekday())
     end_of_week = start_of_week + timezone.timedelta(days=6)
 
@@ -87,9 +88,14 @@ def habits(request):
     days_of_week = [start_of_week + timezone.timedelta(days=i) for i in range(7)]
 
     habits = Habit.objects.filter(user=request.user)
-    # TODO: initialize DailyPerformance records when a new week starts.
     for habit in habits:
-        habit.performances = {day: habit.dailyperformance_set.filter(date=day).exists() for day in days_of_week}
+        # see if there is a DailyPerformance record for each day of the week, if not, create one
+        for day in days_of_week:
+            if not habit.dailyperformance_set.filter(date=day).exists():
+                DailyPerformance.objects.create(habit=habit, date=day)
+
+        # Get the DailyPerformance records for the current week
+        habit.performaces = habit.dailyperformance_set.filter(date__range=[start_of_week, end_of_week])
 
     context = {
         'habits': habits,
@@ -98,6 +104,27 @@ def habits(request):
         'end_of_week': end_of_week,
     }
     return render(request, 'app/habits.html', context)
+
+
+@csrf_exempt
+@require_POST
+def daily_performance_update(request):
+    """Update the daily performance of a habit."""
+    data = json.loads(request.body)
+    habit_id, date, performed = data['habitId'], data['date'], data['performed']
+
+    # Get the DailyPerformance record for the habit and date
+    habit = Habit.objects.get(id=habit_id)
+    daily_performance = habit.dailyperformance_set.get(date=date)
+
+    # Update the performed field
+    daily_performance.performed = performed
+    daily_performance.save()
+
+    #TODO: update the current streak of the habit
+
+    return JsonResponse({'success': True})
+
 
 
 # TODO: initialize DailyPerformance records when a new week starts.

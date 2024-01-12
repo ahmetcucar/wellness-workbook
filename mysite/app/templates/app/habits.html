@@ -37,4 +37,50 @@
         </div>
     </div>
 
+
+    <script type="text/javascript">
+    // Function to get the CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.habit-checkbox').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                const habitId = this.dataset.habitId;
+                const date = new Date(this.dataset.date);
+                const formattedDate = date.toISOString().split('T')[0];
+                const performed = this.checked;
+
+                fetch('daily_performance/', {  // Update with the correct URL
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ habitId: habitId, date: formattedDate, performed: performed })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+    </script>
+
 {% endblock content %}
