@@ -1,43 +1,49 @@
 {% extends "app/base.html" %}
+{% load static %}
 {% load habit_extras %}
-{% block content %}
-    <h1>Weekly Habit Tracker</h1>
-    <h6 class="mb-5"><em>
-        "We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle
-    </em></h6>
 
-    <div class="container">
-        <h5 class="text-center mb-3"> My Week: {{start_of_week|date:"F j"}} - {{end_of_week|date:"F j"}}</h5>
-        <table class="table text-center">
-            <thead>
-                <tr>
-                    <th>Habit</th>
-                    {% for day in days_of_week %}
-                        <th class="text-center">{{ day|date:"D" }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for habit in habits %}
+{% block content %}
+    <div class="container my-4">
+        <h1 class="text-center mb-2">Weekly Habit Tracker</h1>
+        <p class="text-center mb-5"><em>
+            "We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle
+        </em></p>
+
+        <h5 class="text-center mb-4">My Week: {{ start_of_week|date:"F j" }} - {{ end_of_week|date:"F j" }}</h5>
+
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead class="thead-light">
                     <tr>
-                        <td>{{ habit.title }}</td>
+                        <th>Habit</th>
                         {% for day in days_of_week %}
-                            <td>
-                                <input type="checkbox" data-habit-id="{{ habit.id }}" data-date="{{ day }}"
-                                {% if habit.performances|get_item:day %}
-                                    checked
-                                {% endif %}
-                                class="habit-checkbox">
-                            </td>
+                            <th>{{ day|date:"D" }}</th>
                         {% endfor %}
+                        <th>Goal</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-12">
-                <a href="#" class="btn btn-primary">Add Habit</a>
-            </div>
+                </thead>
+                <tbody>
+                    {% for habit in habits %}
+                        <tr>
+                            <td>{{ habit.title }}</td>
+                            {% for day in days_of_week %}
+                                <td>
+                                    <input type="checkbox" data-habit-id="{{ habit.id }}" data-date="{{ day }}"
+                                    {% if habit.performances|get_item:day %} checked {% endif %}
+                                    class="habit-checkbox">
+                                </td>
+                            {% endfor %}
+                            <td id="habit-count-{{ habit.id }}">
+                                {{ habit.count }} / {{ habit.goal }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <a href="#" class="btn btn-primary">Add Habit</a>
         </div>
     </div>
 
@@ -77,6 +83,8 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    const element = document.getElementById(`habit-count-${data.habitId}`);
+                    element.textContent = `${data.count} / ${data.goal}`;
                     console.log('Success:', data);
                 })
                 .catch((error) => {

@@ -91,6 +91,8 @@ def habits(request):
         habit_info = {
             'id': habit.id,
             'title': habit.title,
+            'goal': habit.goal,
+            'count': habit.count_this_week,
             'performances': habit.this_weeks_performance
         }
         habit_data.append(habit_info)
@@ -114,29 +116,25 @@ def daily_performance_update(request):
     data = json.loads(request.body)
     habit_id, date, performed = data['habitId'], data['date'], data['performed']
 
-    # Get the DailyPerformance record for the habit and date
+    # Get the DailyPerformance record for the habit and date and update it
     habit = Habit.objects.get(id=habit_id)
     daily_performance = habit.dailyperformance_set.get(date=date)
-
-    # Update the performed field
     daily_performance.performed = performed
     daily_performance.save()
 
+    count = habit.count_this_week
+    goal = habit.goal
+
     #TODO: update the current streak of the habit
 
-    return JsonResponse({'success': True})
+    return JsonResponse({
+        'success': True,
+        'habitId': habit_id,
+        'count': count,
+        'goal': goal
+    })
 
 
-
-# TODO: initialize DailyPerformance records when a new week starts.
-@login_required
-def week_reset(request):
-    """Reset all habits for the week."""
-    # redirect to habits page
-    return render(request, 'app/habits.html')
-
-
-# TODO: initialize DailyPerformance records when a new habit is created.
 class HabitCreateView(LoginRequiredMixin, CreateView):
     model = Habit
     template_name = 'app/habit_create.html'

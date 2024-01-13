@@ -43,13 +43,13 @@ class Habit(models.Model):
         performances = self.dailyperformance_set.filter(date__range=[start_of_week, end_of_week])
         return {perf.date: perf.performed for perf in performances}
 
+    @property
+    def count_this_week(self):
+        """Return the number of times the habit was performed this week."""
+        return sum(self.this_weeks_performance.values())
 
-"""
-TODO:
-Initialization of DailyPerformance Records:
-You may need to initialize DailyPerformance records for each habit at the start
-of the week or when a new habit is created.
-"""
+
+
 class DailyPerformance(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
     date = models.DateField()
