@@ -130,6 +130,7 @@ def daily_performance_update(request):
     return JsonResponse({
         'success': True,
         'habitId': habit_id,
+        'habitTitle': habit.title,
         'count': count,
         'goal': goal
     })

@@ -34,7 +34,7 @@
                                 </td>
                             {% endfor %}
                             <td id="habit-count-{{ habit.id }}">
-                                {{ habit.count }} / {{ habit.goal }}
+                                {{ habit.count }} / {{ habit.goal }} {% if habit.count >= habit.goal %} &#127881; {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
@@ -83,8 +83,14 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    const element = document.getElementById(`habit-count-${data.habitId}`);
-                    element.textContent = `${data.count} / ${data.goal}`;
+                    const elementID = `habit-count-${data.habitId}`;
+                    const element = document.getElementById(elementID);
+                    if (element) {
+                        element.textContent = `${data.count} / ${data.goal}`;
+
+                        // Add emoji if goal is achieved
+                        element.innerHTML += data.count >= data.goal ? ' &#127881;' : '';
+                    }
                     console.log('Success:', data);
                 })
                 .catch((error) => {
