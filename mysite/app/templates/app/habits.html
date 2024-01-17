@@ -72,6 +72,14 @@
             checkbox.addEventListener('change', function () {
                 const habitId = this.dataset.habitId;
                 const date = new Date(this.dataset.date);
+
+                // Check if the date is in the future and prevent the user from checking it
+                const today = new Date();
+                if (date > today) {
+                    this.checked = false;
+                    return;
+                }
+
                 const formattedDate = date.toISOString().split('T')[0];
                 const performed = this.checked;
 
