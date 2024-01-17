@@ -37,7 +37,7 @@
                             <td id="habit-count-{{ habit.id }}">
                                 {{ habit.count }} / {{ habit.goal }} {% if habit.count >= habit.goal %} &#127881; {% endif %}
                             </td>
-                            <td>{{ habit.streak }}</td>
+                            <td id="habit-streak-{{ habit.id }}">{{ habit.streak }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -84,15 +84,21 @@
                     body: JSON.stringify({ habitId: habitId, date: formattedDate, performed: performed })
                 })
                 .then(response => response.json())
-                // TODO: Update the streak
                 .then(data => {
+                    // Update the count
                     const elementID = `habit-count-${data.habitId}`;
                     const element = document.getElementById(elementID);
                     if (element) {
                         element.textContent = `${data.count} / ${data.goal}`;
-
                         // Add emoji if goal is achieved
                         element.innerHTML += data.count >= data.goal ? ' &#127881;' : '';
+                    }
+
+                    // Update the streak
+                    const streakElementID = `habit-streak-${data.habitId}`;
+                    const streakElement = document.getElementById(streakElementID);
+                    if (streakElement) {
+                        streakElement.textContent = data.streak;
                     }
                     console.log('Success:', data);
                 })
