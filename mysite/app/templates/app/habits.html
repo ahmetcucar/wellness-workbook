@@ -20,6 +20,7 @@
                             <th>{{ day|date:"D" }}</th>
                         {% endfor %}
                         <th>Goal</th>
+                        <th>Streak</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,7 @@
                             <td id="habit-count-{{ habit.id }}">
                                 {{ habit.count }} / {{ habit.goal }} {% if habit.count >= habit.goal %} &#127881; {% endif %}
                             </td>
+                            <td>{{ habit.streak }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -82,6 +84,7 @@
                     body: JSON.stringify({ habitId: habitId, date: formattedDate, performed: performed })
                 })
                 .then(response => response.json())
+                // TODO: Update the streak
                 .then(data => {
                     const elementID = `habit-count-${data.habitId}`;
                     const element = document.getElementById(elementID);

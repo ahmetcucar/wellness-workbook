@@ -93,6 +93,7 @@ def habits(request):
             'title': habit.title,
             'goal': habit.goal,
             'count': habit.count_this_week,
+            'streak': habit.current_streak,
             'performances': habit.this_weeks_performance
         }
         habit_data.append(habit_info)
@@ -124,15 +125,15 @@ def daily_performance_update(request):
 
     count = habit.count_this_week
     goal = habit.goal
-
-    #TODO: update the current streak of the habit
+    streak = habit.current_streak
 
     return JsonResponse({
         'success': True,
         'habitId': habit_id,
         'habitTitle': habit.title,
         'count': count,
-        'goal': goal
+        'goal': goal,
+        'streak': streak
     })
 
 

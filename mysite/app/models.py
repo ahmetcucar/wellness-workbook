@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max, Min
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
@@ -18,14 +19,50 @@ class Post(models.Model):
         return reverse('journal-detail', kwargs={'pk': self.pk})
 
 
+# TODO: test all the properties and methods of the Habit model
 class Habit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     goal = models.PositiveIntegerField(default=7)  # Number of times the habit is targeted per week
-    current_streak = models.PositiveIntegerField(default=0)  # Current streak of the habit
 
     def __str__(self):
         return self.title
+
+
+    @property
+    def current_streak(self):
+        """
+        Calculate the current streak of the habit. The streak is the number of
+        consecutive days up to today that the habit has been performed. If a day
+        is missed, the streak resets.
+        """
+        today = timezone.now().date()
+
+        # count the number of times the habit was performed consecutively from yesterday going back
+        d = today - timezone.timedelta(days=1)
+        streak = 0
+        while True:
+            try:
+                perf = self.dailyperformance_set.get(date=d)
+                if perf.performed:
+                    streak += 1
+                    d -= timezone.timedelta(days=1)
+                else:
+                    break
+            except DailyPerformance.DoesNotExist:
+                break
+
+        # if the habit was performed today, add 1 to the streak
+        try:
+            perf = self.dailyperformance_set.get(date=today)
+            if perf.performed:
+                streak += 1
+        except DailyPerformance.DoesNotExist:
+            pass
+
+        return streak
+
+
 
     @property
     def this_weeks_performance(self):
