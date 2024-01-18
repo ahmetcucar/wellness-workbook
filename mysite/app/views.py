@@ -1,5 +1,5 @@
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Post, Habit, DailyPerformance
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -10,8 +10,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
 
+@login_required
 def home(request):
-    return render(request, 'app/home.html')
+    # reroute to journals page
+    return redirect('app-journals')
+
 
 
 ######### JOURNAL VIEWS #######################################################

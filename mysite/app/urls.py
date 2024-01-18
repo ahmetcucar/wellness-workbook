@@ -3,7 +3,6 @@ from . import views as app_views
 
 urlpatterns = [
     path('', app_views.home, name='app-home'),
-
     path('habits/', app_views.habits, name='app-habits'),
     path('habits/daily_performance/', app_views.daily_performance_update, name='app-daily-performance'),
     path('habits/new/', app_views.HabitCreateView.as_view(), name='habit-create'),
