@@ -56,7 +56,7 @@
                                     <div class="col-6 text-start fw-bold">{{ habit.count_all_time }} days</div>
                                 </div>
 
-                                <a href="#" class="btn btn-danger btn-sm mb-2">Reset Habit Stats</a> <!-- TODO: Add reset habit functionality + add warning-->
+                                <a href="{% url 'habit-reset' habit.id %}" class="btn btn-danger btn-sm mb-2">Reset Habit Stats</a>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,25 @@
+{% extends "app/base.html" %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Reset Habit Stats?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Are you sure you want to reset the habit "<strong>{{ habit.title }}</strong>"?
+                            You will lose all your progress.
+                        </p>
+                        <form method="POST" class="mt-4">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit">Yes, Reset</button>
+                            <a class="btn btn-secondary" href="{% url 'habit-detail' habit.id %}">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

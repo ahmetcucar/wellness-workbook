@@ -187,3 +187,14 @@ class HabitDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         """Override to restrict editing to the author of the habit."""
         habit = self.get_object()
         return self.request.user == habit.user
+
+
+# resets the given habit by deleting all DailyPerformance records for it
+@login_required
+def reset_habit(request, pk):
+    if request.method == 'POST':
+        habit = Habit.objects.get(id=pk)
+        habit.dailyperformance_set.all().delete()
+        messages.success(request, f'Habit reset!')
+        return redirect('app-habits')
+    return render(request, 'app/habit_confirm_reset.html', {'habit': Habit.objects.get(id=pk)})
