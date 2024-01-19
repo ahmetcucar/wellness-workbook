@@ -9,8 +9,8 @@
             "We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle
         </em></p>
 
+        {% if habits %}
         <h5 class="text-center mb-4">My Week: {{ start_of_week|date:"F j" }} - {{ end_of_week|date:"F j" }}</h5>
-
         <div class="table-responsive">
             <table class="table table-bordered text-center">
                 <thead class="dark-header">
@@ -43,8 +43,10 @@
                 </tbody>
             </table>
         </div>
+        {% endif %}
 
-        <div class="mt-4">
+        <!-- Create Habit Button -->
+        <div class="ms-4">
             <a href="{% url 'habit-create' %}" class="btn btn-primary">Add Habit</a>
         </div>
     </div>

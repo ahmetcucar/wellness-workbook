@@ -3,14 +3,19 @@
 {% block content %}
     <div class="container mt-4">
         <a href="{% url 'app-habits' %}" class="btn btn-outline-secondary btn-sm mb-4">Back to Habits</a>
-        <h1 class="mb-4">Create New Habit</h1>
-        <div class="card mb-3">
-            <div class="card-body">
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+        <h1 class="mb-5">Create New Habit</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
