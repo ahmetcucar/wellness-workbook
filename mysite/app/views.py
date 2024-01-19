@@ -164,7 +164,6 @@ class HabitUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Habit
     template_name = 'app/habit_update.html'
     fields = ['title', 'goal']
-    success_url = '/habits/'
 
     def form_valid(self, form):
         """Override to set the user of the new habit to the logged-in user."""
