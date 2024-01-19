@@ -32,7 +32,7 @@
                     <h6 class="card-subtitle text-muted">{{ post.date_posted|date:"F j, Y" }}</h6>
                 </div>
                 <div class="card-body py-2">
-                    <p class="card-text">{{ post.content }}</p>
+                    <p class="card-text">{{ post.content|linebreaksbr }}</p>
                 </div>
             </div>
         </div>
