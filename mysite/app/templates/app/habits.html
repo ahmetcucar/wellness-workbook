@@ -10,6 +10,15 @@
         </em></p>
 
         {% if habits %}
+        <!-- checkbox to signify if user wants to allow checking future days -->
+        <div class="form-check mt-4">
+            <input class="form-check-input" type="checkbox" value="" id="allow-future-days">
+            <label class="form-check-label" for="allow-future-days">
+                Allow checking future days
+            </label>
+        </div>
+
+        <!-- Week Desc. -->
         <h5 class="text-center mb-4">My Week: {{ start_of_week|date:"F j" }} - {{ end_of_week|date:"F j" }}</h5>
 
         <!-- Habit Table -->
@@ -63,6 +72,7 @@
         <div class="ms-4">
             <a href="{% url 'habit-create' %}" class="btn btn-primary">Add Habit</a>
         </div>
+
     </div>
 
 
@@ -89,11 +99,14 @@
                 const habitId = this.dataset.habitId;
                 const date = new Date(this.dataset.date);
 
-                // Check if the date is in the future and prevent the user from checking it
-                const today = new Date();
-                if (date > today) {
-                    this.checked = false;
-                    return;
+                // Check if the user wants to allow checking future days
+                const allowFutureDays = document.getElementById('allow-future-days').checked;
+                if (!allowFutureDays) {
+                    const today = new Date();
+                    if (date > today) {
+                        this.checked = false;
+                        return;
+                    }
                 }
 
                 const formattedDate = date.toISOString().split('T')[0];

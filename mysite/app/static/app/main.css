@@ -136,7 +136,7 @@ a.article-title:hover {
     /* Centering the checkmark */
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -68%); /* NOTE: most important for centering */
+    transform: translate(-50%, -70%); /* NOTE: most important for centering */
 }
 
 .custom-checkbox:hover input ~ .checkmark {
