@@ -28,6 +28,9 @@ class Habit(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('habit-detail', kwargs={'pk': self.pk})
+
 
     @property
     def current_streak(self):
@@ -63,7 +66,6 @@ class Habit(models.Model):
         return streak
 
 
-
     @property
     def this_weeks_performance(self):
         """
@@ -84,6 +86,12 @@ class Habit(models.Model):
     def count_this_week(self):
         """Return the number of times the habit was performed this week."""
         return sum(self.this_weeks_performance.values())
+
+
+    @property
+    def count_all_time(self):
+        """Return the total number of times the habit was performed."""
+        return self.dailyperformance_set.filter(performed=True).count()
 
 
 

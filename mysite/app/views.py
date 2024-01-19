@@ -154,6 +154,12 @@ class HabitCreateView(LoginRequiredMixin, CreateView):
         return resp
 
 
+class HabitDetailView(LoginRequiredMixin, DetailView):
+    model = Habit
+    template_name = 'app/habit_detail.html'
+    context_object_name = 'habit'
+
+
 class HabitUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Habit
     template_name = 'app/habit_update.html'

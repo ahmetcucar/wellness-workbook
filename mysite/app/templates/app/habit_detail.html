@@ -1,0 +1,69 @@
+{% extends "app/base.html" %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-11">
+
+                <!-- Back Button and Heading -->
+                <a href="{% url 'app-habits' %}" class="btn btn-outline-secondary btn-sm mb-4">Back to Habits</a>
+                <div class="d-flex justify-content-between align-items-center mb-5">
+                    <!-- Left Aligned Heading and Back Button -->
+                    <div>
+                        <h3>Habit (Detailed View)</h1>
+                    </div>
+
+                    <!-- Right Aligned Update and Delete Buttons -->
+                    <div>
+                        <a href="{% url 'habit-update' habit.id %}" class="btn btn-accent text-white me-3">Update</a>
+                        <a href="{% url 'habit-delete' habit.id %}" class="btn btn-danger text-white">Delete</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Habit Card -->
+            <div class="col-md-9">
+                <div class="card mb-3">
+
+                    <div class="card-body">
+                        <!-- title -->
+                        <h1 class="card-title text-center">{{ habit.title }}</h1>
+                        <hr>
+
+                        <!-- habit stats -->
+                        <div class="row justify-content-center">
+                            <div class="col-md-11">
+
+                                <h5 class="card-title mb-4">My Stats:</h5>
+
+                                <div class="row mb-2">
+                                    <div class="col-5 text-start text-muted">Current Streak:</div>
+                                    <div class="col-6 text-start fw-bold">{{ habit.current_streak }} days</div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-5 text-start text-muted">Weekly Goal:</div>
+                                    <div class="col-6 text-start fw-bold">{{ habit.goal }} days a week</div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-5 text-start text-muted">This Week's Performance:</div>
+                                    <div class="col-6 text-start fw-bold">{{ habit.count_this_week }} / {{ habit.goal }} days performed</div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col-5 text-start text-muted">Total Times Performed:</div>
+                                    <div class="col-6 text-start fw-bold">{{ habit.count_all_time }} days</div>
+                                </div>
+
+                                <a href="#" class="btn btn-danger btn-sm mb-2">Reset Habit Stats</a> <!-- TODO: Add reset habit functionality + add warning-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock content %}

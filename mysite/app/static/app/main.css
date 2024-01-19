@@ -1,5 +1,5 @@
 body {
-    background: #fafafa;
+    background: #eeeeee;
     color: #333333;
     /* margin-top: 1rem; */
     /* margin-left: 2rem;
@@ -75,13 +75,18 @@ a.article-title:hover {
     vertical-align: middle;
 }
 
-.account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-}
-
 .account-heading {
     font-size: 2.5rem;
 }
+
+.dark-header th {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+.btn-accent {
+    background-color: #89a6c8;
+    color: white;
+}
+
+

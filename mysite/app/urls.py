@@ -6,6 +6,7 @@ urlpatterns = [
     path('habits/', app_views.habits, name='app-habits'),
     path('habits/daily_performance/', app_views.daily_performance_update, name='app-daily-performance'),
     path('habits/new/', app_views.HabitCreateView.as_view(), name='habit-create'),
+    path('habits/<int:pk>/', app_views.HabitDetailView.as_view(), name='habit-detail'),
     path('habits/<int:pk>/update/', app_views.HabitUpdateView.as_view(), name='habit-update'),
     path('habits/<int:pk>/delete/', app_views.HabitDeleteView.as_view(), name='habit-delete'),
 
