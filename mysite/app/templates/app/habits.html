@@ -31,16 +31,11 @@
                     {% for habit in habits %}
                         <tr>
                             <!-- title -->
-                            <td><a href="{% url 'habit-detail' habit.id %}">{{ habit.title }}</a></td>
+                            <td><a class="habit-title-col" href="{% url 'habit-detail' habit.id %}">{{ habit.title }}</a></td>
 
                             <!-- checkboxes -->
                             {% for day in days_of_week %}
-                                <!-- <td>
-                                    <input type="checkbox" data-habit-id="{{ habit.id }}" data-date="{{ day }}"
-                                    {% if habit.performances|get_item:day %} checked {% endif %}
-                                    class="habit-checkbox">
-                                </td> -->
-                                <td>
+                                <td class="habit-day-col">
                                     <label class="custom-checkbox">
                                         <input type="checkbox" data-habit-id="{{ habit.id }}" data-date="{{ day }}"
                                         {% if habit.performances|get_item:day %} checked {% endif %}
@@ -51,12 +46,12 @@
                             {% endfor %}
 
                             <!-- count -->
-                            <td id="habit-count-{{ habit.id }}">
+                            <td class="habit-count-col" id="habit-count-{{ habit.id }}">
                                 {{ habit.count }} / {{ habit.goal }} {% if habit.count >= habit.goal %} &#127881; {% endif %}
                             </td>
 
                             <!-- streak -->
-                            <td id="habit-streak-{{ habit.id }}">{{ habit.streak }}</td>
+                            <td class="habit-streak-col" id="habit-streak-{{ habit.id }}">{{ habit.streak }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
