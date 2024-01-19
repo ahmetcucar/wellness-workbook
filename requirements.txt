@@ -20,9 +20,6 @@ pytz==2021.3
 requests==2.27.1
 six==1.16.0
 sqlparse==0.4.4
-torch==1.11.0
-torchaudio==0.11.0
-torchvision==0.12.0
 tqdm==4.63.0
 typing_extensions==4.1.1
 urllib3==1.26.8
