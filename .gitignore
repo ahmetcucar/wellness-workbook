@@ -1,3 +1,5 @@
+*.json
+
 # Mac
 .DS_Store
 
