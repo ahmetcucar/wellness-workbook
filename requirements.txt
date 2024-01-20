@@ -5,6 +5,7 @@ crispy-bootstrap5==2023.10
 cycler==0.11.0
 Django==5.0
 django-crispy-forms==2.1
+django-heroku
 fonttools==4.29.1
 gunicorn==21.2.0
 idna==3.3
