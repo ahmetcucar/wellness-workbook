@@ -9,15 +9,27 @@
             "We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle
         </em></p>
 
-        {% if habits %}
-        <!-- checkbox to signify if user wants to allow checking future days -->
-        <div class="form-check mt-4">
-            <input class="form-check-input" type="checkbox" value="" id="allow-future-days">
-            <label class="form-check-label" for="allow-future-days">
-                Allow checking future days
-            </label>
+        {% if not habits%}
+        <!-- add habit -->
+        <div class="text-center">
+            <a href="{% url 'habit-create' %}" class="btn btn-primary btn-lg">Add Your First Habit!</a>
         </div>
 
+        {% else %}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Checkbox to allow checking future days -->
+            <div class="form-check ms-4">
+                <input class="form-check-input" type="checkbox" value="" id="allow-future-days">
+                <label class="form-check-label" for="allow-future-days">
+                    Allow checking future days
+                </label>
+            </div>
+
+            <!-- Create Habit Button -->
+            <div>
+                <a href="{% url 'habit-create' %}" class="btn btn-primary btn-sm me-4">Add Habit</a>
+            </div>
+        </div>
         <!-- Week Desc. -->
         <h5 class="text-center mb-4">My Week: {{ start_of_week|date:"F j" }} - {{ end_of_week|date:"F j" }}</h5>
 
@@ -67,12 +79,6 @@
             </table>
         </div>
         {% endif %}
-
-        <!-- Create Habit Button -->
-        <div class="ms-4">
-            <a href="{% url 'habit-create' %}" class="btn btn-primary">Add Habit</a>
-        </div>
-
     </div>
 
 

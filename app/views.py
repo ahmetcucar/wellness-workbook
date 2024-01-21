@@ -13,7 +13,7 @@ import json
 @login_required
 def home(request):
     # reroute to journals page
-    return redirect('app-journals')
+    return redirect('app-habits')
 
 
 
