@@ -4,6 +4,7 @@ from . import views as app_views
 urlpatterns = [
     path('', app_views.home, name='app-home'),
     path('habits/', app_views.habits, name='app-habits'),
+    path('habits/toggle_size/', app_views.toggle_table_size, name='app-toggle-table-size'),
     path('habits/daily_performance/', app_views.daily_performance_update, name='app-daily-performance'),
     path('habits/new/', app_views.HabitCreateView.as_view(), name='habit-create'),
     path('habits/<int:pk>/', app_views.HabitDetailView.as_view(), name='habit-detail'),

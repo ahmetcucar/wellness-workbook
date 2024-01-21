@@ -198,3 +198,13 @@ def reset_habit(request, pk):
         messages.success(request, f'Habit reset!')
         return redirect('app-habits')
     return render(request, 'app/habit_confirm_reset.html', {'habit': Habit.objects.get(id=pk)})
+
+@login_required
+def toggle_table_size(request):
+    """Toggle the size of the table on the habits page."""
+    if request.method == 'POST':
+        # Logic to toggle size (e.g., saving preference in session)
+        request.session['habit_chart_size'] = 'large' if request.session.get('habit_chart_size') != 'large' else 'small'
+        return JsonResponse({'size': request.session['habit_chart_size']})
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)

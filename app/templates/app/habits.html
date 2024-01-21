@@ -25,9 +25,13 @@
                 </label>
             </div>
 
-            <!-- Create Habit Button -->
+
             <div>
-                <a href="{% url 'habit-create' %}" class="btn btn-primary btn-sm me-4">Add Habit</a>
+                <!-- Create Habit Button -->
+                <a href="{% url 'habit-create' %}" class="btn btn-primary btn-sm me-2">Add Habit</a>
+
+                <!-- Toggle Size Button -->
+                <button id="toggle-size-btn" class="btn btn-secondary btn-sm me-4">Toggle Size</button>
             </div>
         </div>
         <!-- Week Desc. -->
@@ -100,6 +104,33 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        // Toggle size button
+        document.getElementById('toggle-size-btn').addEventListener('click', function () {
+            fetch('toggle_size/', {  // Update with the correct URL
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'action': 'toggle_size'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const table = document.querySelector('.table-responsive');
+                if (data.size === 'large') {
+                    table.classList.add('large-size'); // Add the 'large-size' class for large styling
+                } else {
+                    table.classList.remove('large-size'); // Remove the class for small styling
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+
+        // Habit checked or not
         document.querySelectorAll('.habit-checkbox').forEach(function (checkbox) {
             checkbox.addEventListener('change', function () {
                 const habitId = this.dataset.habitId;
