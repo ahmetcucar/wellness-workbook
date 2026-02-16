@@ -1,8 +1,5 @@
 # My Wellness Workbook
 
-## Deployed 🚀 ([Check it out!](https://mywellnessworkbook-3fc307266e24.herokuapp.com/))
-https://mywellnessworkbook-3fc307266e24.herokuapp.com/
-
 ## About the Project
 My Wellness Workbook is an interactive web application designed to assist users in tracking their daily habits and maintaining a personal journal. Built using the Django framework and Bootstrap for the frontend, this application offers a dynamic experience with real-time updates facilitated through AJAX.
 
